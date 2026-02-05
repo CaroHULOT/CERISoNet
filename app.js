@@ -1,6 +1,6 @@
 const express = require('express');
-const fs = require('fs');
-const https = require('https');
+const fs = require('node:f');
+const https = require('node:https');
 
 const app = express();
 app.use(express.json());
@@ -8,7 +8,6 @@ app.use(express.json());
 const PORT_HTTP = 3108;
 const PORT_HTTPS = 3109;
 
-//------------------------EXO 1----------------------------
 
 
 // SSL
@@ -18,30 +17,28 @@ const SSLOptions = {
 };
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.htm');
+    res.sendFile(__dirname + '/main.htm');
 });
 
-var serverhttp = app.listen(PORT_HTTP, () => {
+const serverhttp = app.listen(PORT_HTTP, () => {
     console.log(`HTTP Server running on port ${PORT_HTTP}`);
 });
 
-var serverhttps = https.createServer(SSLOptions, app).listen(PORT_HTTPS, () => {
+const serverhttps = https.createServer(SSLOptions, app).listen(PORT_HTTPS, () => {
     console.log(`HTTPS Server running on port ${PORT_HTTPS}`);
 });
 
 
-//------------------------EXO 2----------------------------
+//Routes
 
-app.get('/produit/:nom/:stock', (request, response) => {
-    var nomRecu = request.params.nom;
-    var stockRecu = request.params.stock;
-    response.json({ nom: nomRecu, stock: stockRecu });
+app.get('/login', (request, response) => {
+    res.sendFile(__dirname + '/login.htm');
 });
 
 // curl -X POST -H "Content-Type: application/json" -d '{"nom":"table", "stock":4}' http://pedago.univ-avignon.fr:3108/produit
 app.post('/produit', (request, response) => {
-    var nomRecu = request.body.nom;
-    var stockRecu = request.body.stock;
+    let nomRecu = request.body.nom;
+    let stockRecu = request.body.stock;
 
     console.log("Données reçues : ", nomRecu, stockRecu);
 
@@ -51,6 +48,12 @@ app.post('/produit', (request, response) => {
         stock: stockRecu
     });
 });
+
+
+
+
+
+
 
 //------------------------EXO 3----------------------------
 
