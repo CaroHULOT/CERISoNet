@@ -1,0 +1,69 @@
+@if (isConnected()) {
+<header class="top-nav">
+  <div class="logo">CERISoNet</div>
+
+  <div class="actions">
+    <span (click)="toggleCreatePost()" class="create-icon">➕</span>
+    <span (click)="toggleProfile()" class="profile-icon">👤</span>
+
+    @if (showProfile()) {
+    <div class="profile-dropdown">
+      <span class="close-btn" (click)="showProfile.set(false)">×</span>
+      <div class="profile-avatar-container">
+        @if (userAvatar()) {
+        <span class="profile-avatar-emoji">{{ userAvatar() }}</span>
+        } @else {
+        <div class="profile-avatar-placeholder">👤</div>
+        }
+      </div>
+      <h4>{{ userPseudo() }}</h4>
+
+      <div class="avatar-update-form">
+        <h5 class="avatar-form-title">Choisissez votre animal</h5>
+        <div class="emoji-picker">
+          @for (emoji of availableEmojis; track emoji) {
+          <button class="emoji-btn" (click)="selectEmoji(emoji)" [class.active]="userAvatar() === emoji">
+            {{ emoji }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <p class="profile-last-login">
+        @if (lastLoginDate()) {
+        <span>{{ lastLoginDate() }}</span>
+        } @else {
+        <span>Première connexion !</span>
+        }
+      </p>
+      <button class="logout-btn" (click)="logout()">Déconnexion</button>
+    </div>
+    }
+  </div>
+</header>
+}
+
+<main [class.login-mode]="!isConnected()" [class.mur-mode]="isConnected()">
+  <app-bandeau [message]="bandeauMessage()" [isError]="bandeauIsError()"></app-bandeau>
+
+  @if (!isConnected()) {
+  <app-login (loginResult)="handleLogin($event)"></app-login>
+  } @else {
+  <app-mur [currentUserId]="currentUserId()" [currentPseudo]="userPseudo()"></app-mur>
+  }
+</main>
+
+@if (showCreatePost()) {
+<div class="modal-overlay" (click)="toggleCreatePost()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close-modal-btn" (click)="toggleCreatePost()">×</span>
+    <app-create-post (postCreated)="toggleCreatePost()"></app-create-post>
+  </div>
+</div>
+}
+
+@if (isConnected()) {
+<button class="scroll-top-btn" [class.visible]="showScrollTop()" (click)="scrollToTop()">
+  ↑
+</button>
+}

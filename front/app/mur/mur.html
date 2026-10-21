@@ -1,0 +1,69 @@
+<div class="mur-layout">
+  <aside class="radar-sidebar">
+    <div class="radar-content">
+      <h2>Filtres</h2>
+      <p class="radar-subtitle">(Filtres Live)</p>
+
+      <div class="sort-filter-box">
+        <h3>TRI & AFFICHAGE</h3>
+        <select (change)="onSortChange($event)" class="sidebar-select">
+          <option value="date">Plus récents</option>
+          <option value="likes">Plus populaires</option>
+          <option value="createdBy">Par auteur</option>
+        </select>
+
+        <div class="sidebar-buttons">
+          <button (click)="filterMyPosts()" [class.active]="filterByMe()">Mes Posts</button>
+          <button (click)="loadAllPosts()" [class.active]="!filterByMe()">Tous</button>
+        </div>
+      </div>
+
+      <div class="filters-box">
+        <h3>RECHERCHE</h3>
+        <input [ngModel]="searchTag()" (ngModelChange)="searchTag.set($event)" placeholder="#tag" class="hashtag-input">
+        <button (click)="filterByTag()" class="filter-btn">Filtrer</button>
+      </div>
+
+      <div class="online-users">
+        <h3>EN LIGNE</h3>
+        <ul>
+          @for (user of onlineUsers(); track user) {
+          <li>
+            - {{ user }} {{ user === currentPseudo() ? '(Vous)' : '' }}
+          </li>
+          } @empty {
+          <li>Aucun utilisateur en ligne</li>
+          }
+        </ul>
+      </div>
+
+    </div>
+  </aside>
+
+  <div class="feed-wrapper">
+    <h2 class="mur-title">VOTRE MUR</h2>
+
+    @if (posts().length === 0 && !loading()) {
+    <div class="empty-state">
+      Aucun post n'a pu être chargé.
+    </div>
+    }
+
+    <div class="post-feed">
+      @for (post of posts(); track post._id) {
+      <div class="feed-item">
+        <app-post-card [post]="post" [currentUserId]="currentUserId()"></app-post-card>
+      </div>
+      }
+
+      <div #scrollAnchor class="scroll-anchor">
+        @if (loading()) {
+        <p>Chargement en cours...</p>
+        }
+        @if (!hasMore() && posts().length > 0) {
+        <p>Fin du mur.</p>
+        }
+      </div>
+    </div>
+  </div>
+</div>

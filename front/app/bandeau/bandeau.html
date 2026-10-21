@@ -1,0 +1,27 @@
+@if (message()) {
+<div class="bandeau" [class.error]="isError()" [class.success]="!isError()">
+    {{ message() }}
+</div>
+}
+
+<style>
+    .bandeau {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        border: 1px solid transparent;
+    }
+
+    .error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border-color: #fca5a5;
+    }
+
+    .success {
+        background-color: #dcfce7;
+        color: #166534;
+        border-color: #86efac;
+    }
+</style>

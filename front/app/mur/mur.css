@@ -1,0 +1,136 @@
+.mur-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Sidebar Fixée et Scrollable */
+.radar-sidebar {
+  position: sticky;
+  top: 5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  /* Masquer la scrollbar pour un look propre mais garder le scroll */
+  scrollbar-width: thin;
+}
+
+.radar-content h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.radar-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+}
+
+.sort-filter-box, .filters-box, .online-users {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sort-filter-box h3, .filters-box h3, .online-users h3 {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.sidebar-select {
+  background: #f8fafc !important;
+}
+
+.sidebar-buttons {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.sidebar-buttons button {
+  flex: 1;
+  padding: 6px;
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.sidebar-buttons button.active {
+  background: var(--primary);
+  color: white;
+}
+
+.filter-btn {
+  background: var(--text);
+  color: white;
+  width: 100%;
+  margin-top: 5px;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+/* Online Users */
+.online-users ul {
+  list-style: none;
+}
+
+.online-users li {
+  font-size: 0.85rem;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  color: var(--text);
+}
+
+.online-users li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Feed Wrapper */
+.feed-wrapper {
+  min-width: 0;
+}
+
+.mur-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mur-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .radar-sidebar {
+    position: relative;
+    top: 0;
+    max-height: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .sort-filter-box, .filters-box, .online-users {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}

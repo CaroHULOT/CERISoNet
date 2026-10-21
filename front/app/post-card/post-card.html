@@ -1,0 +1,88 @@
+<div class="post-card">
+  <div class="post-header">
+    <div class="author-info">
+      @if (post().avatar) {
+        <span class="mini-avatar-emoji">{{ post().avatar }}</span>
+      } @else {
+        <span class="mini-avatar-placeholder">👤</span>
+      }
+      <span class="author">@{{post().pseudo || post().createdBy}}</span>
+    </div>
+    <span class="date">{{post().date}} {{post().hour}}</span>
+    @if (post().shared) {
+      <span class="share-badge">🔄 Partage</span>
+      <small class="shared-id">(Original ID: {{post().shared}})</small>
+    }
+  </div>
+
+    <div class="post-body">
+      @if (post().body) {
+      <p>"{{post().body}}"</p>
+      }
+      
+      @if (post().images) {
+        <div class="image-gallery">
+          @if (post().images?.url) {
+            <img [src]="post().images?.url" [alt]="post().images?.title || 'Image du post'">
+          } @else if (isArray(post().images) && post().images[0]?.url) {
+            <img [src]="post().images[0].url" [alt]="post().images[0].title || 'Image du post'">
+          }
+        </div>
+      }
+    </div>
+
+  @if (post().hashtags && post().hashtags!.length > 0) {
+  <div class="post-hashtags">
+    @for (tag of post().hashtags; track tag) {
+    <span class="hashtag">{{tag}}</span>
+    }
+  </div>
+  }
+
+  <div class="post-stats-actions">
+    <span class="stats like-button" (click)="likePost()" style="cursor: pointer;">❤️ {{post().likes || 0}}</span>
+    <span class="stats comments-toggle" (click)="toggleComments()">
+      💬 {{post().comments?.length || 0}} Commentaires
+    </span>
+    <span class="stats share-toggle" (click)="toggleShare()" style="cursor: pointer;">
+      🔄 Partager
+    </span>
+  </div>
+
+  @if (isSharing()) {
+  <div class="share-form">
+    <input type="text" [ngModel]="shareComment()" (ngModelChange)="shareComment.set($event)"
+      placeholder="Ajouter un commentaire au partage..." class="share-input">
+    <button (click)="confirmShare()" [disabled]="!shareComment()" class="share-submit">
+      Partager maintenant
+    </button>
+  </div>
+  }
+
+  @if (showComments()) {
+  <div class="post-comments">
+    @for (comment of post().comments; track $index) {
+    <div class="comment">
+      <div class="comment-header">
+        <span class="comment-author">@{{comment.pseudo || comment.commentedBy}}</span>
+        <span class="comment-date">{{comment.date}} {{comment.hour}}</span>
+      </div>
+      <p class="comment-text">{{comment.text}}</p>
+    </div>
+    } @empty {
+    <div class="no-comments">
+      Aucun commentaire pour le moment.
+    </div>
+    }
+
+    <!-- Formulaire d'ajout de commentaire -->
+    <div class="add-comment-form">
+      <input type="text" [ngModel]="newCommentText()" (ngModelChange)="newCommentText.set($event)"
+        placeholder="Écrire un commentaire..." class="comment-input">
+      <button (click)="addComment()" [disabled]="!newCommentText() || isAddingComment()" class="comment-submit">
+        {{ isAddingComment() ? 'Envoi...' : 'Envoyer' }}
+      </button>
+    </div>
+  </div>
+  }
+</div>

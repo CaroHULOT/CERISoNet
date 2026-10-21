@@ -1,0 +1,25 @@
+<div class="create-post-container">
+  <h2>NOUVEAU POST</h2>
+  <div class="post-form">
+    <textarea [ngModel]="body()" (ngModelChange)="body.set($event)" placeholder="Quoi de neuf ?" rows="4"></textarea>
+    
+    <div class="form-group">
+      <label>Image (URL)</label>
+      <input type="text" [ngModel]="imageUrl()" (ngModelChange)="imageUrl.set($event)" placeholder="Lien vers une image (facultatif)">
+      
+      @if (imageUrl()) {
+        <div class="image-preview">
+          <p>Aperçu :</p>
+          <img [src]="imageUrl()" alt="Aperçu de l'image" (error)="onImageError($event)">
+        </div>
+      }
+    </div>
+
+    <div class="hashtags-input-box">
+      <label>Hashtags</label>
+      <input type="text" [ngModel]="hashtagsText()" (ngModelChange)="hashtagsText.set($event)"
+        placeholder="#news #ceri #social">
+    </div>
+    <button (click)="submitPost()" class="btn-primary" style="width: 100%; margin-top: 1rem;" [disabled]="!body()">[ POSTER ]</button>
+  </div>
+</div>
